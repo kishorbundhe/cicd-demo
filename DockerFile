@@ -1,0 +1,9 @@
+FROM openjdk:8-jdk-alpine
+RUN addgroup -S cicdgroup && adduser -S cicduser -G cicdgroup
+USER cicduser
+WORKDIR /home/cicduser
+ARG JAR_FILE="app.jar"
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=build/libs/app.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-Xmx512m", "-Xms256m", "-jar", "app.jar"]
